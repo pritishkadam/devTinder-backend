@@ -2,9 +2,17 @@ const express = require('express');
 const connectDB = require('./config/database.js');
 const app = express();
 const cookieParser = require('cookie-parser');
-require('dotenv').config()
+require('dotenv').config();
+const cors = require('cors');
 
 const PORT_NO = process.env.PORT_NO || 3000;
+
+app.use(
+  cors({
+    origin: 'http://localhost:5137',
+    credentials: true,
+  })
+);
 
 // express.json() middleware takes in the request body converts it into JS object and places it back in the request object's body
 app.use(express.json());
@@ -15,7 +23,7 @@ const profileRouter = require('./routes/profile.js');
 const requestRouter = require('./routes/request.js');
 const userRouter = require('./routes/user.js');
 
-app.use('/', authRouter);
+app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/request', requestRouter);
 app.use('/user', userRouter);

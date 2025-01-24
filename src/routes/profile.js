@@ -6,7 +6,7 @@ const { validateEditProfileData } = require('../utils/validation');
 router.get('/view', userAuth, async (req, res) => {
   try {
     const { user } = req;
-    res.json(user);
+    res.json({ error: false, data: user });
   } catch (error) {
     res.status(400).send({ error: true, errorMessage: error.message });
   }
@@ -23,6 +23,7 @@ router.patch('/edit', userAuth, async (req, res) => {
     await loggedInUser.save();
 
     res.json({
+      error: false,
       message: `${loggedInUser.firstName}, your profile updated successfully!`,
       data: loggedInUser,
     });

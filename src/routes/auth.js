@@ -12,7 +12,17 @@ router.post('/signup', async (req, res) => {
     // validation of data
     validateSignUpData(req);
 
-    const { firstName, lastName, emailID, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      emailID,
+      password,
+      age,
+      gender,
+      photoUrl,
+      about,
+      skills,
+    } = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -30,7 +40,11 @@ router.post('/signup', async (req, res) => {
       expires: new Date(Date.now() + 8 * 3600000),
     });
 
-    res.json({ error: false, message: 'User added successfully!', data: savedUser });
+    res.json({
+      error: false,
+      message: 'User added successfully!',
+      data: savedUser,
+    });
   } catch (error) {
     res.status(400).send({ error: true, errorMessage: error.message });
   }
