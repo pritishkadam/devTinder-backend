@@ -17,6 +17,8 @@ app.use(
 // express.json() middleware takes in the request body converts it into JS object and places it back in the request object's body
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static('uploads'));
+app.use(express.urlencoded({ extended: true }));
 
 const authRouter = require('./routes/auth.js');
 const profileRouter = require('./routes/profile.js');

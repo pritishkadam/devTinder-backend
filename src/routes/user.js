@@ -49,7 +49,6 @@ router.post('/connections', userAuth, async (req, res) => {
       res.json({ error: false, data });
     }
   } catch (error) {
-    console.log('error: ', error);
     res.status(400).send({
       error: true,
       errorMessage: 'Something went wrong due to: ' + error.message,

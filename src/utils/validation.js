@@ -5,7 +5,8 @@ const validateSignUpData = (req) => {
   if (!body) {
     throw new Error('Please enter valid details');
   }
-  const { firstName, lastName, emailID, password } = body;
+  const { firstName, lastName, emailID, password, age, gender, about, skills } =
+    body;
   if (!firstName || !lastName) {
     throw new Error(
       'Please enter a valid ' + !firstName ? 'firstName' : 'lastName'

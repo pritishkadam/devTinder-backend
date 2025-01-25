@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-require('dotenv').config()
+require('dotenv').config();
 
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
+      required: true,
+      minLength: 4,
+      maxLength: 20,
     },
     emailID: {
       type: String,
@@ -52,11 +55,6 @@ const userSchema = new mongoose.Schema(
     photoUrl: {
       type: String,
       default: 'https://geographyandyou.com/images/user-profile.png',
-      validate(value) {
-        if (!validator.isURL(value)) {
-          throw new Error('Invalid photo URL: ' + value);
-        }
-      },
     },
     about: {
       type: String,
