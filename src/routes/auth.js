@@ -34,6 +34,7 @@ router.post('/signup', upload.single('photoUrl'), async (req, res) => {
       gender,
       about,
       skills,
+      role,
     } = req.body;
 
     const imagePath = req.file.path;
@@ -50,6 +51,7 @@ router.post('/signup', upload.single('photoUrl'), async (req, res) => {
       photoUrl: imagePath,
       about,
       skills,
+      role,
     });
 
     const savedUser = await user.save();

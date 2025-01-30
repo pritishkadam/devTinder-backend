@@ -5,7 +5,7 @@ const User = require('../models/user');
 const user = require('../models/user');
 const router = express.Router();
 
-const SAFE_DATA_FIELDS = 'firstName lastName photoUrl age gender about skills';
+const SAFE_DATA_FIELDS = 'firstName lastName photoUrl age gender about role skills';
 
 router.post('/requests/received', userAuth, async (req, res) => {
   try {
