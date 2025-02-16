@@ -3,9 +3,8 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  await mongoose.connect(
-    'mongodb+srv://preetkdm2:Movdq5z0kNiJ4rSe@namastenodejs.hmo2p.mongodb.net/devTinder?retryWrites=true&w=majority&appName=NamasteNodeJS'
-  );
+  const DB_URL = process.env.DB_URL;
+  await mongoose.connect(DB_URL);
 };
 
 module.exports = connectDB;

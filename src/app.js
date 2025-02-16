@@ -1,15 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/database.js');
 const app = express();
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
 const cors = require('cors');
 
 const PORT_NO = process.env.PORT_NO || 7777;
 
+const REACT_APP_URL = process.env.REACT_APP_URL;
+
 app.use(
   cors({
-    origin: 'http://localhost:5137',
+    origin: REACT_APP_URL,
     credentials: true,
   })
 );
