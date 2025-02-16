@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const cors = require('cors');
 
-const PORT_NO = process.env.PORT_NO || 3000;
+const PORT_NO = process.env.PORT_NO || 7777;
 
 app.use(
   cors({
