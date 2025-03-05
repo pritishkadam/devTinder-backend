@@ -35,15 +35,15 @@ router.post('/connections', userAuth, async (req, res) => {
         { receiver: loggedInUser._id, status: 'accepted' },
         { sender: loggedInUser._id, status: 'accepted' },
       ],
-    }).populate('sender', SAFE_DATA_FIELDS);
-
-    const dirPath = path.join(__dirname, '..', '..', 'uploads');
+    })
+      .populate('sender', SAFE_DATA_FIELDS)
+      .populate('receiver', SAFE_DATA_FIELDS);
 
     if (connectionRequest && connectionRequest.length === 0) {
       res.json({ error: false, data: [] });
     } else {
       const data = connectionRequest.map((row) => {
-        if (row.sender.toString() === loggedInUser._id.toString()) {
+        if (row?.sender?._id.toString() === loggedInUser._id.toString()) {
           return row.receiver;
         }
         return row.sender;
@@ -51,37 +51,6 @@ router.post('/connections', userAuth, async (req, res) => {
 
       res.json({ error: false, data });
     }
-  } catch (error) {
-    res.status(400).send({
-      error: true,
-      errorMessage: 'Something went wrong due to: ' + error.message,
-    });
-  }
-});
-
-router.post('/messages', userAuth, async (req, res) => {
-  try {
-    const loggedInUser = req.user;
-
-    // const connectionRequest = await ConnectionRequest.find({
-    //   $or: [
-    //     { receiver: loggedInUser._id, status: 'accepted' },
-    //     { sender: loggedInUser._id, status: 'accepted' },
-    //   ],
-    // });
-
-    // if (connectionRequest && connectionRequest.length === 0) {
-    //   res.json({ error: false, data: [] });
-    // } else {
-    //   const data = connectionRequest.map((row) => {
-    //     if (row.sender.toString() === loggedInUser._id.toString()) {
-    //       return row.receiver;
-    //     }
-    //     return row.sender;
-    //   });
-
-    res.json({ error: false, data: [] });
-    // }
   } catch (error) {
     res.status(400).send({
       error: true,
@@ -133,12 +102,7 @@ router.get('/profile/:userId', userAuth, async (req, res) => {
       throw new Error(userID + ' is not a valid userID');
     }
 
-    const { photoUrl } = userDetails;
-
-    const dirPath = path.join(__dirname, '..', '..', 'uploads', photoUrl);
-    const details = { ...userDetails, photoUrl: dirPath };
-
-    res.json({ error: false, data: details });
+    res.json({ error: false, data: userDetails });
   } catch (error) {
     res.status(400).send({ error: true, errorMessage: error.message });
   }

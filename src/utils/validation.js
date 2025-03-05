@@ -17,6 +17,7 @@ const validateSignUpData = (req) => {
     about,
     role,
     skills,
+    photoUrl,
   } = body;
   if (!firstName || !lastName) {
     throw new Error(
@@ -26,6 +27,8 @@ const validateSignUpData = (req) => {
     throw new Error('Please enter a valid emailID');
   } else if (!validator.isStrongPassword(password)) {
     throw new Error('Please enter a strong password');
+  } else if (!validator.isURL(photoUrl)) {
+    throw new Error('Please enter a valid photoUrl');
   } else if (!age) {
     throw new Error('Please enter valid age');
   } else if (!validGender.includes(gender)) {

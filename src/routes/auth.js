@@ -6,21 +6,8 @@ const {
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const User = require('./../models/user');
-const multer = require('multer');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads');
-  },
-  filename: function (req, file, cb) {
-    const uniqueFileName = Date.now() + '_' + file.originalname;
-    cb(null, uniqueFileName);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-router.post('/signup', upload.single('photoUrl'), async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     // validation of data
     validateSignUpData(req);
@@ -34,10 +21,9 @@ router.post('/signup', upload.single('photoUrl'), async (req, res) => {
       gender,
       about,
       skills,
+      photoUrl,
       role,
     } = req.body;
-
-    const imagePath = req.file.path;
 
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -48,14 +34,14 @@ router.post('/signup', upload.single('photoUrl'), async (req, res) => {
       password: passwordHash,
       age,
       gender,
-      photoUrl: imagePath,
+      photoUrl,
       about,
       skills,
       role,
     });
 
     const savedUser = await user.save();
-    const token = savedUser.getJWT();
+    const token = await savedUser.getJWT();
 
     res.cookie('token', token, {
       expires: new Date(Date.now() + 8 * 3600000),

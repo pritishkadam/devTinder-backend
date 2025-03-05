@@ -4,6 +4,7 @@ const connectDB = require('./config/database.js');
 const app = express();
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const http = require('http');
 
 const PORT_NO = process.env.PORT_NO || 7777;
 
@@ -26,16 +27,22 @@ const authRouter = require('./routes/auth.js');
 const profileRouter = require('./routes/profile.js');
 const requestRouter = require('./routes/request.js');
 const userRouter = require('./routes/user.js');
+const chatRouter = require('./routes/chat.js');
+const initializeSocket = require('./utils/intiailizeSocket.js');
 
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/request', requestRouter);
 app.use('/user', userRouter);
+app.use('/chat', chatRouter);
+
+const server = http.createServer(app);
+initializeSocket(server);
 
 connectDB()
   .then(() => {
     console.log('Connected to MongoDB Cluster Successfully');
-    app.listen(PORT_NO, () => {
+    server.listen(PORT_NO, () => {
       console.log(`Server is listening on http://localhost:${PORT_NO}`);
     });
   })
